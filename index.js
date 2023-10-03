@@ -1,4 +1,3 @@
-
 const Application = PIXI.Application;
 
 
@@ -43,7 +42,7 @@ rectangle.beginFill(0xAA33BB)
 .endFill();
 
 //need to add in order to show up on canvas
-app.stage.addChild(rectangle)
+// app.stage.addChild(rectangle)
 
 const poly = new Graphics();
 
@@ -92,7 +91,7 @@ torus.beginFill(0xFFFDDD)
 .drawTorus(200, 500, 80, 100, 0, Math.PI * 1.5)
 .endFill();
 
-app.stage.addChild(torus)
+// app.stage.addChild(torus)
 
 const star = new Graphics();
 
@@ -133,9 +132,14 @@ myText.style.wordWrapWidth = 100;
 //similar to setInterval but much better performance
 //this runs based off the refresh rate of the users
 //monitor. interesting. 
-// app.ticker.add(delta => loop(delta));
+app.ticker.add(delta => loop(delta));
 
-// function loop(delta) {
+function loop(delta) {
+
+    // char1Sprite.x += 1
+
+    char1Sprite.rotation += .01
+
 
 //     const rect = new Graphics();
 // rect.beginFill(0XFFFFFF)
@@ -144,10 +148,98 @@ myText.style.wordWrapWidth = 100;
 // .endFill();
 
 // app.stage.addChild(rect)
-// }
+}
 
 const char1Texture = PIXI.Texture.from('./images/heart.png');
 
 const char1Sprite = new PIXI.Sprite(char1Texture)
 
-app.stage.addChild(char1Sprite)
+// app.stage.addChild(char1Sprite)
+
+
+//scale if you wish
+// char1Sprite.scale.x = 1.5
+// char1Sprite.scale.y = 1.5
+// char1Sprite.scale.set(1.5, 1.5)
+
+// char1Sprite.x = 200;
+// char1Sprite.y = 400
+
+char1Sprite.x  = 600
+char1Sprite.y = 300
+
+//changing the rotation point of a sprite
+// char1Sprite.anchor.x = 0.5;
+// char1Sprite.anchor.y = 0.5;
+char1Sprite.anchor.set(0.5, 0.5)
+
+
+
+
+//to make a sprite interactive
+char1Sprite.interactive = true;
+//to make a sprite have a hand pointer
+char1Sprite.buttonMode = true;
+
+//code for what should happen if it's "pointerdown"
+char1Sprite.onpointerdown = ()=> {
+    char1Sprite.scale.x += 0.1
+    char1Sprite.scale.y += 0.1
+}
+
+// char1Sprite.on('pointerup', function() {
+//     char1Sprite.scale.x -= 0.2
+//     // char1Sprite.scale.y += 0.1
+// })
+
+
+//Do an event listener w/ keyboard. this ex is making sprite move left/right 10px
+document.addEventListener('keydown', function(e) {
+    if (e.key === "ArrowRight") {
+        char1Sprite.x += 10;
+    }
+    if (e.key === "ArrowLeft") {
+        char1Sprite.x -= 10;
+    }
+
+    console.log(e.key)
+
+})
+
+
+//how to make a container. useful for something like a character that has a gun in a vid game or something
+const container = new PIXI.Container();
+
+const guy = PIXI.Sprite.from('./images/guy.png');
+const speed = PIXI.Sprite.from('./images/star.png');
+const mario = PIXI.Sprite.from('./images/mario.jpeg');
+
+// container.addChild(guy)
+// container.addChild(speed)
+// container.addChild(mario)
+
+app.stage.addChild(container);
+// container.lineStyle(4, xxffffff, 1)
+
+// speed.x = 100
+speed.scale.set(.2, .2)
+guy.scale.set(.3, .3)
+// console.log(speed.x)
+speed.position.set(400, 0)
+container.position.set(100, 100);
+
+// console.log(seed.getGlobalPosition())
+
+const particleContainer = new PIXI.ParticleContainer(1000, {
+    position: true,
+    rotation: true,
+    vertices: true, 
+    tint: true, 
+    uvs: true
+});
+
+
+
+const char4 = PIXI.Assets.load('./images/char4.png')
+
+app.stage.addChild(char4)
